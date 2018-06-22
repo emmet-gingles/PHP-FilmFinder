@@ -1,0 +1,219 @@
+<!DOCTYPE HTML> 
+<html> 
+<head> 
+<title>Film Finder</title> 
+<script type="text/javascript" charset="utf-8"></script> 
+<script type="text/javascript">
+function loadForm(){
+	var today = new Date();
+	var weekdays = new Array(7);
+	weekdays[0] = "Sunday";
+	weekdays[1] = "Monday";
+	weekdays[2] = "Tuesday";
+	weekdays[3] = "Wednesday";
+	weekdays[4] = "Thursday";
+	weekdays[5] = "Friday";
+	weekdays[6] = "Saturday";
+    var n = today.getDay();
+    var d = today.getDate();
+	var day = weekdays[n];	
+
+	var dd = document.getElementById('days');
+	var option = new Option;
+	option.text = "Today ("+day+")";
+	option.value = day;
+	dd.options[dd.options.length] = new Option(option.text, option.value);
+	var i;
+	for (i=n+1;i < weekdays.length;i++){
+		option.text = weekdays[i];
+		option.value = weekdays[i];
+		dd.options[dd.options.length] = new Option(option.text, option.value);
+	}
+	for(i=0;i< n;i++){
+		option.text = weekdays[i];
+		option.value = weekdays[i];
+		dd.options[dd.options.length] = new Option(option.text, option.value);
+	}
+	loadScript();
+}
+
+function valTime(){
+	var starttime = document.myform.starttimes.selectedIndex;
+	var endtime = document.myform.endtimes.selectedIndex;
+	var start = document.myform.starttimes.options[starttime].text;
+	var end = document.myform.endtimes.options[endtime].text;
+ 	
+ 	if(end <= start){
+		alert("end time must be after start time");
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
+var geo;
+var map;
+
+function initialize(){
+	geo = new google.maps.Geocoder(); 
+    var mapProp = {
+		center: new google.maps.LatLng(52.508742,-8.120850),
+		zoom:6,
+		panControl:true,
+		zoomControl:true,
+		zoomControlOptions: {
+			style:google.maps.ZoomControlStyle.SMALL,
+			position:google.maps.ControlPosition.LEFT
+		},
+		streetViewControl:false,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	}; 
+   map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+}
+
+function loadScript(){
+	// set your Google API key here
+	var API_key = "";
+	var script = document.createElement("script");	
+	script.type = "text/javascript";
+	script.src = "http://maps.googleapis.com/maps/api/js?key="+API_key+"&callback=initialize";
+															
+	document.body.appendChild(script);
+}
+
+function codeAddress(){
+	geo = new google.maps.Geocoder();
+	var selectedAddress = document.myform.cinemas.selectedIndex;
+	var address = document.myform.cinemas.options[selectedAddress].text;
+	geo.geocode({'address':address+" IRELAND"}, function(results, status){
+		if( status == google.maps.GeocoderStatus.OK){
+			map.setCenter(results[0].geometry.location);
+			var marker = new google.maps.Marker({
+				map: map,
+				position: results[0].geometry.location
+			});
+		} 
+	});
+}
+
+function getXml(){
+	var latitudes = new Array();
+    var longitudes = new Array();
+    var cinemas = new Array();
+    var towns = new Array();
+    
+	if (window.XMLHttpRequest){ 
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	  }
+	else{ 
+		// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.open("GET", "locations.xml", false);
+	xmlhttp.send();
+	xmlDoc=xmlhttp.responseXML; 
+	var x = xmlDoc.getElementsByTagName("address");
+	for (i=0;i<x.length;i++){ 
+		var lat = x[i].getElementsByTagName("latitude")[0].childNodes[0].nodeValue;
+		var long = x[i].getElementsByTagName("longitude")[0].childNodes[0].nodeValue;
+        var name = x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
+        var town = x[i].getElementsByTagName("town")[0].childNodes[0].nodeValue;        
+		latitudes[latitudes.length] = lat;
+		longitudes[longitudes.length] = long;
+        cinemas[cinemas.length] = name;
+        towns[towns.length] = town;
+	  }
+      
+	for(i=0;i< latitudes.length;i++){
+		if(i > 0) {
+			var marker = new google.maps.Marker({         
+				map: map,
+				position: new google.maps.LatLng(latitudes[i],longitudes[i]),
+                clickable: true,                  
+		    });
+            marker.setMap(map);                  
+            marker.info = new google.maps.InfoWindow({
+				content: "Cinema: " + cinemas[i] + "<br />" + "Town: " + towns[i] ,
+				position:new google.maps.LatLng(latitudes[i],longitudes[i]) 
+			});
+            google.maps.event.addListener(marker, 'click', function() {
+				var marker_map = this.getMap();
+                this.info.open(marker_map);
+            });
+        };
+     }
+}
+
+
+</script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head> 
+<body onload="loadForm()"> 
+<h1>Film Finder</h1>
+<form name="myform" onsubmit="return valTime()" action="http://localhost:8080/FilmFinder/assets/www/getFilms.php" method="post">
+	<label>Cinema</label>
+	<select name="cinemas" onchange="codeAddress()" >
+		<option value="Armagh">Armagh</option>
+		<option value="Ashbourne">Ashbourne</option>
+		<option value="Athlone">Athlone</option>
+		<option value="Belfast">Belfast</option>
+		<option value="Carlow">Carlow</option>
+		<option value="Cavan">Cavan</option>
+		<option value="Cork">Cork</option>
+		<option value="Drogheda">Drogheda</option>
+		<option value="Dun Laoighre">Dun Laoighre</option>
+		<option value="Dundalk">Dundalk</option>
+		<option value="Enniskillen">Enniskillen</option>
+		<option value="Galway">Galway</option>
+		<option value="Kilkenny">Kilkenny</option>
+		<option value="Limerick">Limerick</option>
+		<option value="Monaghon">Monaghon</option>
+		<option value="Mullingar">Mullingar</option>
+		<option value="Naas">Naas</option>
+		<option value="Navan">Navan</option>
+		<option value="Newry">Newry</option>
+		<option value="Portlaoise">Portlaoise</option>
+		<option value="Sligo">Sligo</option>
+		<option value="Tullamore">Tullamore</option>
+		<option value="Waterford">Waterford</option>
+		<option value="Wexford">Wexford</option>
+	</select>
+	<br/>
+	<label>Day</label>
+	<select name="days" id="days">
+	</select>
+	<br/><label>Start time</label>
+	<select name="starttimes">
+		<option value="14:00">14:00</option>
+		<option value="15:00">15:00</option>
+		<option value="16:00">16:00</option>
+		<option value="17:00">17:00</option>
+		<option value="18:00">18:00</option>
+		<option value="19:00">19:00</option>	
+		<option value="20:00">20:00</option>
+		<option value="21:00">21:00</option>
+	</select>
+	<br/><label>End time</label>
+	<select name="endtimes">
+		<option value="15:00">15:00</option>
+		<option value="16:00">16:00</option>
+		<option value="17:00">17:00</option>
+		<option value="18:00">18:00</option>
+		<option value="19:00">19:00</option>
+		<option value="20:00">20:00</option>
+		<option value="21:00">21:00</option>
+		<option value="22:00">22:00</option>
+	</select>
+	<br/><label>Order by</label>
+	<br/><input type="radio" name="order" value="title" checked="checked">Title
+	<br><input type="radio" name="order" value="time">Time
+	<br/><input type="submit" value="Submit">
+</form>
+	<br/>
+	<input type="button" onclick="getXml()" value="Show Cinemas"/>
+	<br/>
+	<div id="googleMap"></div>
+</body> 
+</html>
