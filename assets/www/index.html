@@ -1,71 +1,10 @@
 <!DOCTYPE HTML> 
 <html> 
 	<head> 
+		<meta charset="utf-8">
 		<title>Film Finder</title> 
 		<script type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-		var map;				// used for showing a map 
-		var markers = [];		// used for plotting coordinates on a map 
-		
-		// function to load data into the form elements
-		function loadForm(){
-			// days of the week
-			var weekdays = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-			// current date 
-			var today = new Date();
-			// current day as a number (0-6)
-			var day = today.getDay(); 
-			// variable for each selection list
-			var dd_day = document.getElementById('days');
-			var dd_cinema = document.getElementById("cinemas");
-			var dd_starttime = document.getElementById("starttimes");
-			var dd_endtime = document.getElementById("endtimes");
-			
-			// set the options for the days selection list. The first item is the current day
-			dd_day.options[dd_day.options.length] = new Option("Today", weekdays[day]);
-			// next set option for each day from current day up until the last day of the week
-			for (i=day+1;i < weekdays.length;i++){
-				dd_day.options[dd_day.options.length] = new Option(weekdays[i], weekdays[i]);
-			}
-			// finally set option for any days of the week that come before the current day
-			for(i=0;i < day;i++){
-				dd_day.options[dd_day.options.length] = new Option(weekdays[i], weekdays[i]);
-			}
-
-			// AJAX request to load data from text file
-			if (window.XMLHttpRequest){ 
-				// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp=new XMLHttpRequest();
-			}
-			else{ 
-				// code for IE6, IE5
-				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.open("GET", "text/towns.txt", false);
-			xmlhttp.send();
-			responseText = xmlhttp.responseText
-			var arr = responseText.split("\n");
-			var cinemas = new Array();
-			// loop through each line of text and split it in two. Add the first partition (the town) to an array of cinemas
-			for(i=0;i < arr.length;i++){
-				var town = arr[i].split(';')[0];
-				cinemas.push(town);
-			}
-			// loop through the list of cinemas and set each one as an option for the cinema selection list 
-			for(i=0;i < cinemas.length;i++){
-				dd_cinema.options[dd_cinema.options.length] = new Option(cinemas[i], cinemas[i]);
-			}
-			// list of times
-			var times = new Array("8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00");
-			// loop through the list of times and set each one as an option for the starttimes selection list (stopping at the second last item)
-			for(i=0;i < times.length-1;i++){
-				dd_starttime.options[dd_starttime.options.length] = new Option(times[i], times[i]);
-			}
-			// loop through the list of times and set each one as an option for the endtimes selection list (starting from the second item)
-			for(i=1;i < times.length;i++){
-				dd_endtime.options[dd_endtime.options.length] = new Option(times[i], times[i]);
-			}
-		}
 		
 		// function used to check that the endtime is greater than the starttime
 		function validateTime(){
@@ -73,113 +12,179 @@
 			var starttime = document.getElementById("starttimes").selectedIndex;
 			var endtime = document.getElementById("endtimes").selectedIndex;
 			// returns false if starttime index is greater than endtime index. Otherwise returns true
-			if(endtime < starttime){
-				alert("end time must be after start time");
+			if(starttime > endtime){
+				alert("End time must be after start time");
 				return false;
 			}
-			else{
 				return true;
-			}
 		}
 		
 		// function to intialize the map and its properties
 		function initializeMap(){
 			var mapProp = {
-				center: new google.maps.LatLng(52.508742,-8.120850),
+				center: new google.maps.LatLng(53.3623875,-8.0977142),
 				zoom:6,
-				panControl:true,
+				panControl:false,
 				zoomControl:true,
 				zoomControlOptions: {
 					style:google.maps.ZoomControlStyle.SMALL,
 					position:google.maps.ControlPosition.LEFT
 				},
-				streetViewControl:false,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
+				streetViewControl:false
 			}; 
-			map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+			// use DOM to assign map and its properties to the div with the id map 
+			map = new google.maps.Map(document.getElementById("map"), mapProp);
 		}
 
 		// function that uses an API key to load the map and then calls the initializeMap function
 		function loadScript(){
-			// Your API key goes here
-			var API_key = "";
+			var API_key = "AIzaSyCq9l6Ubl87guFCGm0j-wcUidRD9f_mPyk";
 			var script = document.createElement("script");	
 			script.type = "text/javascript";
 			script.src = "http://maps.googleapis.com/maps/api/js?key="+API_key+"&callback=initializeMap";															
 			document.body.appendChild(script);
 		}
-
-		// function to read in cinema coordinates from a file and plot them as markers on a map 
-		function showMarkers(){
-			// arrays that will be used for storing file contents
-			var latitudes = new Array();
-			var longitudes = new Array();
-			var cinemas = new Array();
-			var towns = new Array();
-
-			// AJAX request to load data from XML file
-			if (window.XMLHttpRequest){ 
-				// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp=new XMLHttpRequest();
-			}
-			else{ 
-				// code for IE6, IE5
-				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.open("GET", "text/locations.xml", false);
-			xmlhttp.send();
-			// get response data from AJAX
-			var responseText = xmlhttp.responseXML; 
-			// search for any data inside an <address> tag
-			var address = responseText.getElementsByTagName("address");
-			// loop through the data, read each tag's content and add it to the appropriate array
-			for (i=0;i < address.length;i++){ 
-				var latitude = address[i].getElementsByTagName("latitude")[0].childNodes[0].nodeValue;
-				var longitude = address[i].getElementsByTagName("longitude")[0].childNodes[0].nodeValue;
-				var name = address[i].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-				var town = address[i].getElementsByTagName("town")[0].childNodes[0].nodeValue;  
-				latitudes.push(latitude);
-				longitudes.push(longitude);
-				cinemas.push(name);
-				towns.push(town);
-			}
-			// loop through each latitude and longitude and set a marker at the coordinates
-			for(i=0;i< latitudes.length;i++){
-				// set the marker at its position on the map and make it clickable
-				var marker = new google.maps.Marker({         
-						map: map,
-						position:new google.maps.LatLng(latitudes[i],longitudes[i]),
-						clickable: true,                  
-				});
-				// add each markers to array
-				markers.push(marker);
-				// info window for each marker displaying the cinema name and town
-				marker.info = new google.maps.InfoWindow({
-					content: "Cinema: " + cinemas[i] + "<br />" + "Town: " + towns[i] ,
-					position:new google.maps.LatLng(latitudes[i],longitudes[i]) 
-				});
-				// add listener to open the info window whenever marker is clicked
-				google.maps.event.addListener(marker, 'click', function() {
-					var marker_map = this.getMap();
-					this.info.open(marker_map);
-				});                 				
-			}
-		}
-
-		// function to loop through the list of markers and remove each one from the map 
-		function clearMarkers(){
-			for (var i = 0; i < markers.length; i++ ) {
-				markers[i].setMap(null);
-			}
-		}
+		
 		</script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script>
 		$(document).ready(function(){
+			var markers = [];		// array used for plotting coordinates on a map 
+			
+			// function to load data into the form elements
+			function loadForm() {
+				// days of the week
+				var weekdays = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+				// today's date 
+				var today = new Date();
+				// current day as a number from 0-6
+				var day = today.getDay(); 
+				// variables for each selection list
+				var dd_day = document.getElementById('days');
+				var dd_cinema = document.getElementById("cinemas");
+				var dd_starttime = document.getElementById("starttimes");
+				var dd_endtime = document.getElementById("endtimes");
+				
+				// set the options for the days selection list. The first item is the current day
+				dd_day.options[dd_day.options.length] = new Option("Today", 0);
+				// used for the value of each drop down option
+				counter = 1;
+				// next set option for each day from current day up until the last day of the week. Each option has a day as text and
+				// value of counter as its value. Counter is incremented at the end of each loop
+				for (i=day+1;i < weekdays.length;i++){
+					dd_day.options[dd_day.options.length] = new Option(weekdays[i], counter);
+					counter++;
+				}
+				// finally set option for any days of the week that come before the current day
+				for(i=0;i < day;i++){
+					dd_day.options[dd_day.options.length] = new Option(weekdays[i], counter);
+					counter++;
+				}
+			
+				// use AJAX to retrieve a list of towns from textfile
+				$.ajax({
+						async: true,
+						type: "GET",
+						url: 'files/towns.txt'				
+				}).done(function(response){
+					// split the response data by each new line
+					var arr = response.split("\n");
+					// array to store each cinema location
+					var cinemas = new Array();
+					// loop through each line of text and split it in two. Append the first partition (the town) to the array of cinemas
+					for(i=0;i < arr.length;i++){
+						var town = arr[i].split(';')[0];
+						cinemas.push(town);
+					}
+					// loop through the list of cinemas and set each one as an option for the cinema selection list 
+					for(i=0;i < cinemas.length;i++){
+						dd_cinema.options[dd_cinema.options.length] = new Option(cinemas[i], cinemas[i]);
+					}
+					// list of times
+					var times = new Array("8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00");
+					// loop through the list of times and set each one as an option for the starttimes selection list (stopping at the second last item)
+					for(i=0;i < times.length-1;i++){
+						dd_starttime.options[dd_starttime.options.length] = new Option(times[i], times[i]);
+					}
+					// loop through the list of times and set each one as an option for the endtimes selection list (starting from the second item)
+					for(i=1;i < times.length;i++){
+						dd_endtime.options[dd_endtime.options.length] = new Option(times[i], times[i]);
+					}
+				});
+			}
+		
+			// function to read in cinema coordinates from a file and plot them as markers on a map 
+			function showMarkers(){
+				// arrays that will be used for storing file contents
+				var latitudes = new Array();
+				var longitudes = new Array();
+				var cinemas = new Array();
+				var towns = new Array();
+
+				$.ajax({
+					async: true,
+					type: "GET",
+					contentType: "application/json",
+					url: 'files/locations.json'					
+				}).done(function(result){				
+					var cinemaList = result.cinemas;
+					var numResults = cinemaList.length;
+					for(i=0;i< numResults;i++){
+						latitudes.push(cinemaList[i].latitude);
+						longitudes.push(cinemaList[i].longitude);
+						cinemas.push(cinemaList[i].cinema);
+						towns.push(cinemaList[i].town);
+					}
+				
+				
+					// loop through each latitude and longitude and set a marker at the coordinates
+					for(i=0;i< latitudes.length;i++){
+						// set the marker at its position on the map and make it clickable
+						var marker = new google.maps.Marker({         
+								map: map,
+								position: new google.maps.LatLng(latitudes[i],longitudes[i]),
+								clickable: true, 
+								id: i+1
+						});
+						// append each marker to markers array
+						markers.push(marker);
+						// info window for each marker displaying the cinema name and its town
+						marker.info = new google.maps.InfoWindow({
+							content: "Cinema: " + cinemas[i] + "<br />" + "Town: " + towns[i] ,
+							position:new google.maps.LatLng(latitudes[i], longitudes[i]) 
+						});
+						// add listener to open the info window whenever marker is clicked
+						google.maps.event.addListener(marker, 'click', function() {
+							var marker_map = this.getMap();
+							this.info.open(marker_map);
+							// loop through each marker, if j is equal to the id of the marker selected then change its icon colour to green.
+							// Otherwise use default icon colour of red
+							for(j=1;j< markers.length+1;j++){
+								if(j == this.id){
+									this.setIcon('https://www.google.com/mapfiles/marker_green.png');
+								}
+								else{
+									markers[j-1].setIcon('https://www.google.com/mapfiles/marker.png');
+								}
+							}			
+						});                 				
+					}
+				});
+			}
+			
+			// function to loop through the list of markers and remove each one from the map as well as close any info windows
+			function hideMarkers(){
+				for (i = 0;i < markers.length;i++ ) {
+					markers[i].info.close();
+					markers[i].setMap(null);
+				}
+			}
+				
+			// call functions to load the form and the map
 			loadForm();
 			loadScript();
 
-			// if checkbox is checked set starttime to its first option and endtime to its last option
+			// if checkbox is checked then set starttime to its first option and endtime to its last option
 			$('#allday').click(function() {
 				if ($(this).prop('checked')){
 					$("#starttimes").val($("#starttimes option:first").val());
@@ -187,7 +192,7 @@
 				}
 			});
 
-			// if button is pressed either show or remove the markers from the map
+			// if button is pressed either show or remove the markers from the map depending on button text
 			$('#showMap').click(function() {		
 				var text = $(this).text();
 				if (text == "Show Cinemas"){
@@ -196,7 +201,7 @@
 				}			
 				else{
 					$('#showMap').text('Show Cinemas');
-					clearMarkers();
+					hideMarkers();
 				}
 			});
 		});
@@ -222,6 +227,6 @@
 			<br/></br><input type="submit" value="Submit">
 		</form>
 		<button id="showMap">Show Cinemas</button>
-		<div id="googleMap"></div>
+		<div id="map"></div>
 	</body> 
 </html>

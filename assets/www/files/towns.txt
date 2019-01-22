@@ -1,0 +1,68 @@
+Antrim;					https://entertainment.ie/cinema/cinema-listings/antrim/omniplex-antrim
+Arklow;					https://entertainment.ie/cinema/cinema-listings/wicklow/omniplex-arklow
+Armagh;					https://entertainment.ie/cinema/cinema-listings/armagh/omniplex-armagh
+Ashbourne;  			https://entertainment.ie/cinema/cinema-listings/meath/vue-ashbourne
+Athlone; 			    https://entertainment.ie/cinema/cinema-listings/westmeath/imc-athlone
+Balbriggan;				https://entertainment.ie/cinema/cinema-listings/dublin/omniplex-balbriggan
+Ballina;				https://entertainment.ie/cinema/cinema-listings/mayo/imc-ballina
+Ballincoollig;			https://entertainment.ie/cinema/cinema-listings/cork/the-reel-picture-ballincollig
+Ballymena;				https://entertainment.ie/cinema/cinema-listings/antrim/imc-ballymena
+Banbridge;				https://entertainment.ie/cinema/cinema-listings/down/imc-banbridge, https://entertainment.ie/cinema/cinema-listings/down/omniplex-banbridge
+Bangor;					https://entertainment.ie/cinema/cinema-listings/down/omniplex-bangor
+Bantry;					https://entertainment.ie/cinema/cinema-listings/cork/bantry-cinemax
+Blanchardstown;			https://entertainment.ie/cinema/cinema-listings/dublin/odeon-blanchardstown
+Bundoran;				https://entertainment.ie/cinema/cinema-listings/donegal/eclipse-cinemas-bundoran
+Carlow; 				https://entertainment.ie/cinema/cinema-listings/carlow/imc-carlow, https://entertainment.ie/cinema/cinema-listings/carlow/omniplex-carlow
+Carrick-on-Shannon;		https://entertainment.ie/cinema/cinema-listings/leitrim/carrick-cineplex
+Carrickfergus;			https://entertainment.ie/cinema/cinema-listings/antrim/omniplex-carrickfergus
+Castlebar;				https://entertainment.ie/cinema/cinema-listings/mayo/mayo-movieworld
+Cavan; 		    		https://entertainment.ie/cinema/cinema-listings/cavan/odeon-cavan-town
+Clonakilty;				https://entertainment.ie/cinema/cinema-listings/cork/park-cinema-clonakilty
+Clonmel;				https://entertainment.ie/cinema/cinema-listings/tipperary/imc-clonmel			
+Coleraine;				https://entertainment.ie/cinema/cinema-listings/derry/movie-house-coleraine
+Cookstown;				https://entertainment.ie/cinema/cinema-listings/tyrone/the-ritz-cookstown
+Craigavon;				https://entertainment.ie/cinema/cinema-listings/armagh/omniplex-craigavon
+Dingle;					https://entertainment.ie/cinema/cinema-listings/kerry/phoenix-cinema-dingle
+Douglas;				https://entertainment.ie/cinema/cinema-listings/cork/cinema-world-douglas
+Downpatrick;			https://entertainment.ie/cinema/cinema-listings/down/omniplex-downpatrick
+Drogheda; 				https://entertainment.ie/cinema/cinema-listings/louth/the-arc-cinema-drogheda
+Dun Laoighre;   		https://entertainment.ie/cinema/cinema-listings/dublin/imc-dun-laoghaire
+Dundalk; 				https://entertainment.ie/cinema/cinema-listings/louth/imc-dundalk, https://entertainment.ie/cinema/cinema-listings/louth/omniplex-dundalk
+Dungannon;				https://entertainment.ie/cinema/cinema-listings/tyrone/omniplex-dungannon
+Dungarvan;				https://entertainment.ie/cinema/cinema-listings/waterford/sgc-dungarvan
+Ennis; 					https://entertainment.ie/cinema/cinema-listings/clare/empire-movieplex
+Enniskillen;    		https://entertainment.ie/cinema/cinema-listings/fermanagh/imc-enniskillen
+Glengormley;			https://entertainment.ie/cinema/cinema-listings/antrim/movie-house-glengormley
+Gorey;					https://entertainment.ie/cinema/cinema-listings/wexford/movies-at-gorey
+Kilkenny; 				https://entertainment.ie/cinema/cinema-listings/kilkenny/imc-kilkenny
+Killarney;				https://entertainment.ie/cinema/cinema-listings/kerry/cinema-killarney
+Larne;					https://entertainment.ie/cinema/cinema-listings/antrim/omniplex-larne
+Letterkenny;			https://entertainment.ie/cinema/cinema-listings/donegal/century-cinemas-letterkenny
+Lifford;				https://entertainment.ie/cinema/cinema-listings/clare/eclipse-cinemas-liffordstrabane
+Listowel;				https://entertainment.ie/cinema/cinema-listings/kerry/listowel-classic-movieplex
+Longford;				https://entertainment.ie/cinema/cinema-listings/longford/omniplex-longford
+Maghera;				https://entertainment.ie/cinema/cinema-listings/derry/movie-house-maghera
+Mallow;					https://entertainment.ie/cinema/cinema-listings/cork/gate-multiplex-mallow
+Midleton;				https://entertainment.ie/cinema/cinema-listings/cork/gate-multiplex-midleton
+Monaghan; 				https://entertainment.ie/cinema/cinema-listings/monaghan/omniplex-monaghan
+Mullingar; 				https://entertainment.ie/cinema/cinema-listings/westmeath/imc-mullingar
+Naas; 					https://entertainment.ie/cinema/cinema-listings/kildare/odeon-naas
+Nenagh;					https://entertainment.ie/cinema/cinema-listings/tipperary/ormond-cineplex-nenagh
+Newbridge;				https://entertainment.ie/cinema/cinema-listings/kildare/odeon-newbridge
+Newry; 					https://entertainment.ie/cinema/cinema-listings/down/omniplex-newry
+Newtownards;			https://entertainment.ie/cinema/cinema-listings/down/imc-newtownards
+Omagh;					https://entertainment.ie/cinema/cinema-listings/tyrone/imc-omagh, https://entertainment.ie/cinema/cinema-listings/tyrone/omniplex-omagh
+Oranmore;				https://entertainment.ie/cinema/cinema-listings/galway/imc-oranmore
+Portlaoise; 			https://entertainment.ie/cinema/cinema-listings/laois/odeon-portlaoise
+Roscommon;				https://entertainment.ie/cinema/cinema-listings/roscommon/cl-plex
+Santry;					https://entertainment.ie/cinema/cinema-listings/dublin/imc-santry
+Sligo; 					https://entertainment.ie/cinema/cinema-listings/sligo/omniplex-sligo
+Strabane;				https://entertainment.ie/cinema/cinema-listings/clare/eclipse-cinemas-liffordstrabane
+Swords;					https://entertainment.ie/cinema/cinema-listings/dublin/movies-at-swords
+Tallaght; 				https://entertainment.ie/cinema/cinema-listings/dublin/imc-tallaght
+Thurles; 				https://entertainment.ie/cinema/cinema-listings/tipperary/imc-thurles
+Tralee; 				https://entertainment.ie/cinema/cinema-listings/kerry/omniplex-tralee
+Tullamore; 				https://entertainment.ie/cinema/cinema-listings/offaly/imc-tullamore
+Westport;				https://entertainment.ie/cinema/cinema-listings/mayo/the-w-cinema
+Wexford; 				https://entertainment.ie/cinema/cinema-listings/wexford/omniplex-wexford, https://entertainment.ie/cinema/cinema-listings/wexford/the-arc-cinema-wexford
+Youghal;				https://entertainment.ie/cinema/cinema-listings/cork/regal-cinema
